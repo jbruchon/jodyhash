@@ -24,6 +24,7 @@ int jody_block_hash_avx2(jodyhash_t **data, jodyhash_t *hash, const size_t count
 	/* Regs used in groups of 3; 1=ROR/XOR work, 2=temp, 3=data+constant */
 	__m256i vx1, vx2, vx3;
 	__m256i avx_const, avx_ror2;
+	jodyhash_t qhash = *hash;
 
 	/* Constants preload */
 	avx_const = _mm256_load_si256(&vec_constant.v256);
@@ -73,15 +74,16 @@ int jody_block_hash_avx2(jodyhash_t **data, jodyhash_t *hash, const size_t count
 				ep2 = (uint64_t)_mm256_extract_epi64(vx1, 3);
 				break;
 			}
-			*hash += ep1;
-			*hash ^= ep2;
-			*hash = JH_ROL2(*hash);
-			*hash += ep1;
+			qhash += ep1;
+			qhash ^= ep2;
+			qhash = JH_ROL2(qhash);
+			qhash += ep1;
 		}  // End of hash finish loop
 	}  // End of main AVX for loop
 	*data += vec_allocsize / sizeof(jodyhash_t);
 	if (((uintptr_t)*data & (uintptr_t)0x1fULL) != 0) ALIGNED_FREE(aligned_data);
 	*length = (count - vec_allocsize) / sizeof(jodyhash_t);
+	*hash = qhash;
 	return 0;
 }
 
