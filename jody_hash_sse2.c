@@ -24,6 +24,7 @@ int jody_block_hash_sse2(jodyhash_t **data, jodyhash_t *hash, const size_t count
 	__m128i v1, v2, v3, v4, v5, v6;
 	__m128 vzero;
 	__m128i vec_const, vec_ror2;
+	jodyhash_t qhash = *hash;
 
 #if defined __GNUC__ || defined __clang__
 	__builtin_cpu_init ();
@@ -98,15 +99,16 @@ int jody_block_hash_sse2(jodyhash_t **data, jodyhash_t *hash, const size_t count
 				ep2 = (uint64_t)_mm_cvtsi128_si64(_mm_castps_si128(_mm_movehl_ps(vzero, _mm_castsi128_ps(v4))));
 				break;
 			}
-			*hash += ep1;
-			*hash ^= ep2;
-			*hash = JH_ROL2(*hash);
-			*hash += ep1;
+			qhash += ep1;
+			qhash ^= ep2;
+			qhash = JH_ROL2(qhash);
+			qhash += ep1;
 			}  // End of hash finish loop
 		}  // End of main SSE for loop
 	*data += vec_allocsize / sizeof(jodyhash_t);
 	if (((uintptr_t)*data & (uintptr_t)0x0fULL) != 0) ALIGNED_FREE(aligned_data);
 	*length = (count - vec_allocsize) / sizeof(jodyhash_t);
+	*hash = qhash;
 	return 0;
 }
 
