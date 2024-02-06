@@ -64,7 +64,7 @@ static char *progname;
 
 static void usage(int detailed)
 {
-	fprintf(stderr, "Jody Bruchon's hashing utility %s (%s) [%d bit width]%s\n",
+	printf("Jody Bruchon's hashing utility %s (%s) [%d bit width]%s\n",
 		VER, VERDATE, JODY_HASH_WIDTH,
 #if !defined NO_AVX2 && !defined NO_SSE2
 		" AVX2/SSE2 accelerated"
@@ -77,14 +77,14 @@ static void usage(int detailed)
 #endif
 		);
 	if (detailed == 0) return;
-	fprintf(stderr, "usage: %s [-b|s|n|l|L] [file_to_hash]\n", progname);
-	fprintf(stderr, "Specifying no name or '-' as the name reads from stdin\n");
-	fprintf(stderr, "  -b|-s  Output in md5sum binary style instead of bare hashes\n");
-	fprintf(stderr, "  -n     Output just the file name after the hash\n");
-	fprintf(stderr, "  -l     Generate a hash for each text input line\n");
-	fprintf(stderr, "  -L     Same as -l but also prints hashed text after the hash\n");
-	fprintf(stderr, "  -B     Output a hash for every 4096 byte block of the file\n");
-	fprintf(stderr, "  -r     Output a rolling 4K hash\n");
+	printf("usage: %s [-b|s|n|l|L] [file_to_hash]\n", progname);
+	printf("Specifying no name or '-' as the name reads from stdin\n");
+	printf("  -b|-s  Output in md5sum binary style instead of bare hashes\n");
+	printf("  -n     Output just the file name after the hash\n");
+	printf("  -l     Generate a hash for each text input line\n");
+	printf("  -L     Same as -l but also prints hashed text after the hash\n");
+	printf("  -B     Output a hash for every 4096 byte block of the file\n");
+	printf("  -r     Output a rolling 4K hash\n");
 	return;
 }
 
