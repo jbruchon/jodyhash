@@ -170,7 +170,7 @@ int main(int argc, char **argv)
 
 	/* Process options */
 	if (argc > 1) {
-		if (!strcmp("-v", argv[1])) {
+		if (!strcmp("-v", argv[1]) || !strcmp("--version", argv[1])) {
 			usage(0);
 			exit(EXIT_SUCCESS);
 		}
