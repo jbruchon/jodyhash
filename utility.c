@@ -292,7 +292,7 @@ error_loop2:
 				ioctl(fd, PERF_EVENT_IOC_DISABLE, 0);
 #else
 				/* non-benchmarked code */
-				if (outmode == 6) fprintf(stderr, "doing a rolling hash of %lu bytes\n", i);
+//if (outmode == 6) fprintf(stderr, "doing a rolling hash of %lu bytes\n", i);
 				if ((outmode == 6 ? jody_rolling_block_hash(blk, &hash, i)
 						: jody_block_hash(blk, &hash, i)) != 0) {
 					fprintf(stderr, "error hashing file: ");
