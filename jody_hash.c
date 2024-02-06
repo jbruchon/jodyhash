@@ -17,6 +17,13 @@
 #include "jody_hash_simd.h"
 #include "likely_unlikely.h"
 
+/* Rolling hash block size (4K by default) */
+#ifndef ROLLBSIZE
+ #define ROLLBSIZE 4096
+#endif
+#define ROLLBSIZEW (ROLLBSIZE / sizeof(jodyhash_t))
+
+
 static const jodyhash_t jh_s_constant = JH_ROR2(JODY_HASH_CONSTANT);
 
 /* Hash a block of arbitrary size; must be divisible by sizeof(jodyhash_t)
@@ -100,8 +107,6 @@ skip_sse2:
 }
 
 
-#define ROLLBSIZE 4096
-#define ROLLBSIZEW (ROLLBSIZE / sizeof(jodyhash_t))
 extern int jody_rolling_block_hash(jodyhash_t *data, jodyhash_t *hash, const size_t count)
 {
 	jodyhash_t rollhash;
