@@ -1,7 +1,7 @@
 /*
  * Jody Bruchon hashing function command-line utility
  *
- * Copyright (C) 2014-2023 by Jody Bruchon <jody@jodybruchon.com>
+ * Copyright (C) 2014-2024 by Jody Bruchon <jody@jodybruchon.com>
  * Released under the MIT License (see LICENSE for details)
  */
 

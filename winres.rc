@@ -15,12 +15,12 @@ BEGIN
     BEGIN
 		BLOCK "040904b0"
 		BEGIN
-		    VALUE "Comments", "(C) 2015-2023 Jody Bruchon, published under The MIT License"
+		    VALUE "Comments", "(C) 2015-2024 Jody Bruchon, published under The MIT License"
 		    VALUE "CompanyName", "Jody Bruchon"
 		    VALUE "FileDescription", "jodyhash File Data Hashing Tool"
 		    VALUE "FileVersion", "7,2,0,0"
 		    VALUE "InternalName", "jodyhash"
-		    VALUE "LegalCopyright", "(C) 2015-2023 Jody Bruchon"
+		    VALUE "LegalCopyright", "(C) 2015-2024 Jody Bruchon"
 		    VALUE "OriginalFilename", "jodyhash.exe"
 		    VALUE "ProductName", "jodyhash"
 		    VALUE "ProductVersion", "7,2,0,0"
