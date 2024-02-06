@@ -1,3 +1,9 @@
+jodyhash 7.3.1
+
+- Add a 4K rolling hash to the utility and library
+- Utility: print version/help to stdout instead of stderr
+- Utility: support --version, not just -v
+
 jodyhash 7.3
 
 - API change
