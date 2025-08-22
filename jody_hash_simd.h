@@ -25,6 +25,9 @@ extern "C" {
 
 /* Use SIMD by default */
 #if !defined NO_SIMD
+ #if (__STDC_VERSION__ < 201112L)
+  #include "c99_aligned_alloc.h"
+ #endif
  #if defined __APPLE__
   /* Mac OS X < 10.15 don't support aligned_alloc */
   #include <x86intrin.h>
