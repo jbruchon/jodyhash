@@ -4,7 +4,7 @@ CC ?= gcc
 #COMPILER_OPTIONS = -Os -flto -ffunction-sections -fdata-sections -fno-unwind-tables -fno-asynchronous-unwind-tables
 COMPILER_OPTIONS += -O2 -g
 #COMPILER_OPTIONS += -Og -g3
-COMPILER_OPTIONS += -std=gnu11 -I. -D_FILE_OFFSET_BITS=64 -fstrict-aliasing -pipe
+COMPILER_OPTIONS += -I. -D_FILE_OFFSET_BITS=64 -fstrict-aliasing -pipe
 COMPILER_OPTIONS += -Wall -Wextra -Wwrite-strings -Wcast-align -Wstrict-aliasing -pedantic -Wstrict-overflow -Wstrict-prototypes -Wpointer-arith -Wundef
 COMPILER_OPTIONS += -Wshadow -Wfloat-equal -Wstrict-overflow=5 -Waggregate-return -Wcast-qual -Wswitch-default -Wswitch-enum -Wunreachable-code -Wformat=2 -Winit-self -Wconversion
 #LINK_OPTIONS=-s -Wl,--gc-sections
@@ -58,6 +58,17 @@ else
 SIMD_OBJS += jody_hash_avx2.o
 endif
 endif
+
+# C standard selection
+ifndef USE_C99
+COMPILER_OPTIONS += -std=gnu11
+else
+COMPILER_OPTIONS += -std=gnu99
+#ifndef NO_SIMD
+ OBJS += c99_aligned_alloc.o
+#endif
+endif
+
 
 ifdef PERFBENCHMARK
 COMPILER_OPTIONS += -DPERFBENCHMARK
