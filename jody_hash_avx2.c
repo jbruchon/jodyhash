@@ -40,6 +40,7 @@ int jody_block_hash_avx2(jodyhash_t **data, jodyhash_t *hash, const size_t count
 	} else aligned_data = (__m256i *)*data;
 
 	for (size_t i = 0; i < (vec_allocsize / 32); i++) {
+		uint64_t ep1, ep2;
 		vx1  = _mm256_load_si256(&aligned_data[i]);
 		vx3  = _mm256_load_si256(&aligned_data[i]);
 
@@ -53,32 +54,31 @@ int jody_block_hash_avx2(jodyhash_t **data, jodyhash_t *hash, const size_t count
 		vx3  = _mm256_add_epi64(vx3,  avx_const);
 
 		/* Perform the rest of the hash */
-		for (int j = 0; j < 4; j++) {
-			uint64_t ep1, ep2;
-			switch (j) {
-				default:
-				case 0:
-				ep1 = (uint64_t)_mm256_extract_epi64(vx3, 0);
-				ep2 = (uint64_t)_mm256_extract_epi64(vx1, 0);
-				break;
-				case 1:
-				ep1 = (uint64_t)_mm256_extract_epi64(vx3, 1);
-				ep2 = (uint64_t)_mm256_extract_epi64(vx1, 1);
-				break;
-				case 2:
-				ep1 = (uint64_t)_mm256_extract_epi64(vx3, 2);
-				ep2 = (uint64_t)_mm256_extract_epi64(vx1, 2);
-				break;
-				case 3:
-				ep1 = (uint64_t)_mm256_extract_epi64(vx3, 3);
-				ep2 = (uint64_t)_mm256_extract_epi64(vx1, 3);
-				break;
-			}
-			qhash += ep1;
-			qhash ^= ep2;
-			qhash = JH_ROL2(qhash);
-			qhash += ep1;
-		}  // End of hash finish loop
+		ep1 = (uint64_t)_mm256_extract_epi64(vx3, 0);
+		ep2 = (uint64_t)_mm256_extract_epi64(vx1, 0);
+		qhash += ep1;
+		qhash ^= ep2;
+		qhash = JH_ROL2(qhash);
+		qhash += ep1;
+		ep1 = (uint64_t)_mm256_extract_epi64(vx3, 1);
+		ep2 = (uint64_t)_mm256_extract_epi64(vx1, 1);
+		qhash += ep1;
+		qhash ^= ep2;
+		qhash = JH_ROL2(qhash);
+		qhash += ep1;
+		ep1 = (uint64_t)_mm256_extract_epi64(vx3, 2);
+		ep2 = (uint64_t)_mm256_extract_epi64(vx1, 2);
+		qhash += ep1;
+		qhash ^= ep2;
+		qhash = JH_ROL2(qhash);
+		qhash += ep1;
+		ep1 = (uint64_t)_mm256_extract_epi64(vx3, 3);
+		ep2 = (uint64_t)_mm256_extract_epi64(vx1, 3);
+		qhash += ep1;
+		qhash ^= ep2;
+		qhash = JH_ROL2(qhash);
+		qhash += ep1;
+		// End of hash finish loop
 	}  // End of main AVX for loop
 	*data += vec_allocsize / sizeof(jodyhash_t);
 	if (((uintptr_t)*data & (uintptr_t)0x1fULL) != 0) ALIGNED_FREE(aligned_data);
